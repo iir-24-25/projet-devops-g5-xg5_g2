@@ -1,9 +1,6 @@
 package org.example.gestion_stock.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class User {
@@ -13,11 +10,12 @@ public class User {
     private String username;
     private String passwordHash;
     private String email;
-    @Enumerated
-    private role role;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public User(){}
-    public User(long id, String username, String passwordHash, String email, org.example.gestion_stock.model.role role) {
+    public User(long id, String username, String passwordHash, String email, Role role) {
         this.id = id;
         this.username = username;
         this.passwordHash = passwordHash;
@@ -57,11 +55,11 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
-    public org.example.gestion_stock.model.role getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(org.example.gestion_stock.model.role role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 }

@@ -1,5 +1,5 @@
 package org.example.gestion_stock.model;
 
-public enum role {
+public enum Role {
     PHARMACIEN, RESPONSABLE
 }
