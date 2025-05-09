@@ -37,9 +37,7 @@ jobs:
           docker run --network host --rm mysql:8.0 mysqladmin ping -h 127.0.0.1 -P 3306 -uroot -proot --wait=30 --connect_timeout=30
 
       - name: Build with Maven
-        working-directory: ./Backend/
-        run: mvn clean package -Dspring.profiles.active=ci
+        run: mvn -f ./Backend/pom.xml clean package -Dspring.profiles.active=ci
 
       - name: Run Tests
-        working-directory: ./Backend/
-        run: mvn test
+        run: mvn -f ./Backend/pom.xml test
