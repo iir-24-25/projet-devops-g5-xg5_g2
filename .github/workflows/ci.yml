@@ -17,35 +17,29 @@ jobs:
           MYSQL_ROOT_HOST: '%'
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          path: Backend
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
-      
+
       - name: Wait for MySQL
         run: |
-          for i in {1..10}; do
-            nc -zv mysql 3306 && break || sleep 15
-          done
+          echo "Waiting for MySQL..."
+          docker run --network host --rm mysql:8.0 mysqladmin ping -h 127.0.0.1 -P 3306 -uroot -proot --wait=30 --connect_timeout=30
 
       - name: Build with Maven
-        run: mvn -f ./Backend/pom.xml clean package -Dspring.profiles.active=ci
+        working-directory: ./Backend
+        run: mvn clean package -Dspring.profiles.active=ci
 
       - name: Run Tests
-        run: mvn -f ./Backend/pom.xml test
-
-      - name: Upload Test Report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: test-results
-          path: |
-            target/surefire-reports/
-            target/failsafe-reports/
+        working-directory: ./Backend
+        run: mvn test
