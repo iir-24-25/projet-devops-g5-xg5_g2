@@ -23,7 +23,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          path: ./Backend/
+          path: Backend
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
