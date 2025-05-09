@@ -28,9 +28,15 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      
+      - name: Wait for MySQL
+        run: |
+          for i in {1..10}; do
+            nc -zv mysql 3306 && break || sleep 15
+          done
 
       - name: Build with Maven
-        run: mvn -f ./Backend/pom.xml clean package
+        run: mvn -f ./Backend/pom.xml clean package -Dspring.profiles.active=ci
 
       - name: Run Tests
         run: mvn -f ./Backend/pom.xml test
