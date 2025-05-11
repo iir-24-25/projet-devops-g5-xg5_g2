@@ -22,7 +22,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+        with:
+          fetch-depth: 0
+      - name: Debug file structure
+        run: |
+          echo "=== CURRENT BRANCH ==="
+          git branch -a
+          echo "=== FILE LIST ==="
+          find . -name "App.test.tsx"
+          echo "=== COMMIT HISTORY ==="
+          git log -n 3 --oneline
+          
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
