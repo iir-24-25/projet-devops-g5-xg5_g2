@@ -41,6 +41,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/medicins/{id}").permitAll()
                         .requestMatchers("/medicins").permitAll()
                         .requestMatchers("/users").hasRole("RESPONSABLE")
