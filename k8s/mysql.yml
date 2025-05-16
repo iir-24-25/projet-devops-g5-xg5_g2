@@ -40,7 +40,10 @@ spec:
             - containerPort: 3306
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: system
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: password
             - name: MYSQL_DATABASE
               value: stockpharmacy
           volumeMounts:

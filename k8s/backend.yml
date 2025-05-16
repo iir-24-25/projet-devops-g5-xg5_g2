@@ -23,7 +23,20 @@ spec:
             - name: SPRING_DATASOURCE_USERNAME
               value: root
             - name: SPRING_DATASOURCE_PASSWORD
-              value: system
+              valueFrom:  # Use Secret instead of plain text
+                secretKeyRef:
+                  name: mysql-secret
+                  key: password
+          livenessProbe:  # Add health checks
+            httpGet:
+              path: /actuator/health
+              port: 2000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 2000
 ---
 apiVersion: v1
 kind: Service
@@ -36,4 +49,4 @@ spec:
     - protocol: TCP
       port: 2000
       targetPort: 2000
-  type: ClusterIP
+  type: ClusterIP  # Good for internal communication

@@ -19,7 +19,14 @@ spec:
             - containerPort: 80
           env:
             - name: REACT_APP_API_BASE_URL
-              value: http://backend:2000/
+              value: http://backend.pharma-app.svc.cluster.local:2000/  # Full internal DNS
+          resources:  # Add resource limits
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
 ---
 apiVersion: v1
 kind: Service
@@ -32,4 +39,4 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-  type: NodePort
+  type: LoadBalancer  # Better for external access in AKS
