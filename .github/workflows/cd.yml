@@ -39,7 +39,7 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/pharma-frontend:latest
           
       - name: Set up kubectl
-        uses: azure/setup-kubectl@v2
+        uses: azure/setup-kubectl@latest
         with:
           kubectl-version: 'latest'
 
